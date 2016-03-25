@@ -1,0 +1,4 @@
+Concordance: 99.9%
+Based on 4051/7387 markers (coverage per marker threshold : 10 reads)
+Minimum mappinq quality: 10
+Minimum base quality: 20
