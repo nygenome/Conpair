@@ -14,10 +14,12 @@ Conpair is a fast and robust method dedicated for human tumor-normal studies to 
 # Manual
 
 **Setting environmental variables:**   
-To use ConPair you need to set 2 environmental variables (e.g. by adding following lines to your .bashrc file):  
+To use Conpair you need to set 2 environmental variables and a PYTHONPATH variable (e.g. by adding following lines to your .bashrc file):  
 ```
 export CONPAIR_DIR=/your/path/to/CONPAIR  
 export GATK_JAR=/your/path/to/GenomeAnalysisTK.jar
+
+export PYTHONPATH=${PYTHONPATH}:/your/path/to/CONPAIR/modules/
 ```
 <br/>
 **Most common usage:**   
