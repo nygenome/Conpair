@@ -16,7 +16,7 @@ Conpair is a fast and robust method dedicated for human tumor-normal studies to 
 The fasta file can be downloaded from: ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/technical/reference/human_g1k_v37.fasta.gz  
 In order to be able use the fasta file as a reference 2 additional files are required:
 `human_g1k_v37.dict`, `human_g1k_v37.fa.fa`  
-To create them please follow: http://gatkforums.broadinstitute.org/gatk/discussion/1601/how-can-i-prepare-a-fasta-file-to-use-as-reference
+To create these files please follow: http://gatkforums.broadinstitute.org/gatk/discussion/1601/how-can-i-prepare-a-fasta-file-to-use-as-reference
 
 
 # Manual
