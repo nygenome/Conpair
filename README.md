@@ -11,11 +11,14 @@ Conpair is a fast and robust method dedicated for human tumor-normal studies to 
 
 **Required software:** GATK 2.3 or later, python 2.7, scipy, numpy, java
 
-**Required data:** Human genome fasta file (GRCh37), can be downloaded from: ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/technical/reference/human_g1k_v37.fasta.gz  
+**Required data:** Human genome file (GRCh37)  
+  
+The fasta file can be downloaded from: ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/technical/reference/human_g1k_v37.fasta.gz  
 In order to be able use the fasta file as a reference 2 additional files are required: 
 *human_g1k_v37.dict
 *human_g1k_v37.fa.fa
 To create them please follow: http://gatkforums.broadinstitute.org/gatk/discussion/1601/how-can-i-prepare-a-fasta-file-to-use-as-reference
+
 
 # Manual
 
@@ -27,12 +30,12 @@ export GATK_JAR=/your/path/to/GenomeAnalysisTK.jar
 
 export PYTHONPATH=${PYTHONPATH}:/your/path/to/CONPAIR/modules/
 ```
-<br/>
+
 To avoid specifying the reference file every time you run Conpair, please make sure that you have the following files:
 * /your/path/to/CONPAIR/data/genomes/human_g1k_v37.fa
 * /your/path/to/CONPAIR/data/genomes/human_g1k_v37.fa.fai
 * /your/path/to/CONPAIR/data/genomes/human_g1k_v37.dict
-
+<br/>
 **Most common usage:**   
 To generate pileups (GATK required):
 ```
