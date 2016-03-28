@@ -15,7 +15,7 @@ Conpair is a fast and robust method dedicated for human tumor-normal studies to 
   
 The fasta file can be downloaded from: ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/technical/reference/human_g1k_v37.fasta.gz  
 In order to be able use the fasta file as a reference 2 additional files are required:
-`human_g1k_v37.dict`, `human_g1k_v37.fa.fa`  
+`human_g1k_v37.dict`, `human_g1k_v37.fa.fai`  
 To create these files please follow: http://gatkforums.broadinstitute.org/gatk/discussion/1601/how-can-i-prepare-a-fasta-file-to-use-as-reference
 
 
@@ -58,7 +58,7 @@ ${CONPAIR_DIR}/scripts/estimate_tumor_normal_contamination.py -T TUMOR_pileup -N
 To eliminate the effect of copy number variation on the concordance levels, we recommend using the -H flag. 
 If two samples are concordant the expected concordance level should be close to 99-100%.  
 For discordant samples concordance level should be close to 40%.  
-You can observe slighly lower concordance (80-99%) in presence of contamination and/or copy number changes (if the -H option wasn't used) is at least one of the samples.   
+You can observe slighly lower concordance (80-99%) in presence of contamination and/or copy number changes (if the -H option wasn't used) in at least one of the samples.   
 <br/>
 **Contamination**   
 Even a very low contamination level (such as 0.5%) in the tumor sample will have a severe effect on calling somatic mutations, resulting in decreased specificity. Cross-individual contamination in the normal sample usually has a milder effect on somatic calling.
