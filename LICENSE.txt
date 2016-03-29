@@ -100,7 +100,7 @@ any copyright registration by LICENSEE gives full attribution to NYGC copyright.
 LICENSEE agrees to include appropriate attribution if any results obtained from
 use of the PROGRAM are included in any publication.
 
-Copyright 2014 New York Genome Center
+Copyright 2016 New York Genome Center
 Notice of attribution: The Conpair program was made available through the
 generosity of the New York Genome Center
 
