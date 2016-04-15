@@ -25,10 +25,10 @@ parser = optparse.OptionParser(version='%prog version 0.1 5/January/2015', descr
 parser.add_option('-T', '--tumor_pileup', help='TUMOR PILEUP FILE [mandatory field]', action='store')
 parser.add_option('-N', '--normal_pileup', help='NORMAL PILEUP FILE [mandatory field]', action='store')
 parser.add_option('-M', '--markers', help='MARKER FILE [Conpair-GRCh37-default]', action='store')
-parser.add_option('-C', '--min_cov', help='MIN COVERAGE TO CALL GENOTYPE', default=10, type='int', action='store')
+parser.add_option('-C', '--min_cov', help='MIN COVERAGE TO CALL GENOTYPE [default: 10]', default=10, type='int', action='store')
 parser.add_option('-O', '--outfile', help='TXT OUTPUT FILE [stdout by default]', default="-", type='string', action='store')
-parser.add_option('-Q', '--min_mapping_quality', help='MIN MAPPING QUALITY', default=10, type='int', action='store')
-parser.add_option('-B', '--min_base_quality', help='MIN BASE QUALITY', default=20, type='int', action='store')
+parser.add_option('-Q', '--min_mapping_quality', help='MIN MAPPING QUALITY [default: 10]', default=10, type='int', action='store')
+parser.add_option('-B', '--min_base_quality', help='MIN BASE QUALITY [default: 20]', default=20, type='int', action='store')
 parser.add_option('-H', '--normal_homozygous_markers_only', help='USE ONLY MARKERS THAT ARE HOMOZYGOUS IN THE NORMAL SAMPLE (concordance will not be affected by CNV)', default=False, action='store_true')
 
 (opts, args) = parser.parse_args()
