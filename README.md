@@ -21,6 +21,15 @@ To create these files please follow: http://gatkforums.broadinstitute.org/gatk/d
 
 # Manual
 
+
+**Dependencies:**
+* python 2.7 :               [www.python.org](https://www.python.org/)
+* numpy 1.7.0 or higher :    [www.numpy.org](http://www.numpy.org/) 
+* scipy 0.14.0 or higher :   [www.scipy.org](http://www.scipy.org/)
+* GATK 2.3 or higher :       [www.broadinstitute.org/gatk/download](http://www.broadinstitute.org/gatk/download/)
+* java :                     [http://java.com](http://java.com/en/download/)
+
+
 **Setting environmental variables:**   
 To use Conpair you need to set 2 environmental variables and a PYTHONPATH variable (e.g. by adding following lines to your .bashrc file):  
 ```
@@ -89,7 +98,7 @@ Optional:
 ```  
 # Output files
 **Pileup**  
-An example of a pileup file (10 first lines) can be viewed here: ([`pileup.txt`](https://github.com/nygenome/Conpair/master/data/example/pileup/NA12878_normal40x.gatk.pileup.10lines.txt)). 
+An example of a pileup file (10 first lines) can be viewed here: ([`pileup.txt`](https://github.com/nygenome/Conpair/blob/master/data/example/pileup/NA12878_normal40x.gatk.pileup.10lines.txt)).
 
 **Concordance**  
 An example of a concordance file can be viewed here: ([`concordance.txt`](https://github.com/nygenome/Conpair/blob/master/data/example/concordance/NA12878_tumor80x--NA12878_normal40x.concordance.txt)). 
