@@ -37,20 +37,65 @@ To avoid specifying the reference file every time you run Conpair, please make s
 `/your/path/to/CONPAIR/data/genomes/human_g1k_v37.dict`
 <br/>
 
-**Most common usage:**   
+**Most common usage and additional options:**   
 To generate pileups (GATK required):
 ```
+
 ${CONPAIR_DIR}/scripts/run_gatk_pileup_for_sample.py -B TUMOR_bam -O TUMOR_pileup
 ${CONPAIR_DIR}/scripts/run_gatk_pileup_for_sample.py -B NORMAL_bam -O NORMAL_pileup
+
+
+Optional:
+--help                              show help message and exit
+--reference REFERENCE               reference genome in the fasta format, two additional files (.fai, .dict) located in the same directory as the fasta file are required. You may choose to avoid specifying the reference by following the steps in the "default reference genome" section above.
+--markers MARKERS                   the set of preselected genomic positions in the BED format. Default: ${CONPAIR_DIR}/data/markers/GRCh37.autosomes.phase3_shapeit2_mvncall_integrated.20130502.SNV.genotype.sselect_v4_MAF_0.4_LD_0.8.bed
+--conpair_dir CONPAIR_DIR           path to ${CONPAIR_DIR}
+--gatk GATK                         path to GATK JAR [$GATK by default]
+--java JAVA                         path to JAVA [java by default]
+--temp_dir_java TEMP_DIR_JAVA       java temporary directory to set -Djava.io.tmpdir
+--xmx_java  XMX_JAVA                Xmx java memory setting [default: 12g]
+
 ```
 Verifying concordance between two samples (tumor and normal):
 ```  
-${CONPAIR_DIR}/scripts/verify_concordance.py -T TUMOR_pileup -N NORMAL_pileup [-O OUTFILE] [-H USE ONLY HOMOZYGOUS MARKERS]
+
+${CONPAIR_DIR}/scripts/verify_concordance.py -T TUMOR_pileup -N NORMAL_pileup
+
+
+Optional:
+--help                              show help message and exit
+--outfile OUTFILE                   write output to OUTFILE
+--normal_homozygous_markers_only    use only normal homozygous positions to calculate concordance between TUMOR and NORMAL 
+--min_cov MIN_COV                   require min of MIN_COV in both TUMOR and NORMAL to use the marker
+--min_mapping_quality MIN_MAP_QUAL  do not use reads with mapping qual below MIN_MAP_QUAL [default: 10]
+--min_base_quality  MIN_BASE_QUAL   do not use reads with base qual below MIN_BASE_QUAL of a specified position [default: 20]
+--markers MARKERS                   the set of preselected genomic positions in the TXT format. Default: ${CONPAIR_DIR}/data/markers/GRCh37.autosomes.phase3_shapeit2_mvncall_integrated.20130502.SNV.genotype.sselect_v4_MAF_0.4_LD_0.8.txt
+
 ```  
 Estimating contamination level in both the tumor and the normal:
 ```
-${CONPAIR_DIR}/scripts/estimate_tumor_normal_contamination.py -T TUMOR_pileup -N NORMAL_pileup [-O OUTFILE]
+
+${CONPAIR_DIR}/scripts/estimate_tumor_normal_contamination.py -T TUMOR_pileup -N NORMAL_pileup
+
+
+Optional:
+--help                              show help message and exit
+--outfile OUTFILE                   write output to OUTFILE
+--min_mapping_quality MIN_MAP_QUAL  do not use reads with mapping qual below MIN_MAP_QUAL [default: 10] 
+--markers MARKERS                   the set of preselected genomic positions in the TXT format. Default: ${CONPAIR_DIR}/data/markers/GRCh37.autosomes.phase3_shapeit2_mvncall_integrated.20130502.SNV.genotype.sselect_v4_MAF_0.4_LD_0.8.txt
+--conpair_dir CONPAIR_DIR           path to ${CONPAIR_DIR}
+--grid  GRID                        grid interval [default: 0.01]
+
 ```  
+# Output files
+**Pileup**  
+An example of a pileup file (10 first lines) can be viewed here: ([`pileup.txt`](https://github.com/nygenome/Conpair/master/data/example/pileup/NA12878_normal40x.gatk.pileup.10lines.txt)). 
+
+**Concordance**  
+An example of a concordance file can be viewed here: ([`concordance.txt`](https://github.com/nygenome/Conpair/blob/master/data/example/concordance/NA12878_tumor80x--NA12878_normal40x.concordance.txt)). 
+
+**Contamination**  
+An example of a concordance file can be viewed here: ([`contamination.txt`](https://github.com/nygenome/Conpair/blob/master/data/example/contamination/NA12878_tumor80x--NA12878_normal40x.contamination.txt)). 
 
 
 # Interpretation  
