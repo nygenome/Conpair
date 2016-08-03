@@ -7,7 +7,7 @@
 # any warranty or guaranteed support whatsoever. The New York Genome Center
 # cannot be responsible for its use, misuse, or functionality.
 # Version: 1.0
-# Author: Ewa A Grabowska (egrabowska@nygenome.org)
+# Author: Ewa A Bergmann (ewa.a.bergmann@gmail.com)
 
 
 import sys

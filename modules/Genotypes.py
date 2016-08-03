@@ -1,8 +1,8 @@
 #!/usr/bin/env python2.7
 
 #
-# Version 0.6 2015-10-08
-# Ewa Grabowska (egrabowska@nygenome.org)
+# 2015-10-08
+# Ewa A. Bergmann (ewa.a.bergmann@gmail.com)
 # New York Genome Center
 #
 
@@ -13,7 +13,7 @@
 # any warranty or guaranteed support whatsoever. The New York Genome Center
 # cannot be responsible for its use, misuse, or functionality.
 # Version: 1.0
-# Author: Ewa A Grabowska (egrabowska@nygenome.org)
+# Author: Ewa A. Bergmann (ewa.a.bergmann@gmail.com)
 
 
 import sys

@@ -6,8 +6,8 @@
 # Genome Center. All rights are reserved. This software is supplied without
 # any warranty or guaranteed support whatsoever. The New York Genome Center
 # cannot be responsible for its use, misuse, or functionality.
-# Version: 0.1
-# Author: Ewa A Grabowska (egrabowska@nygenome.org)
+# Version: 0.15
+# Author: Ewa A Bergmann (ewa.a.bergmann@gmail.com)
 
 import sys
 import os
@@ -21,7 +21,7 @@ CONPAIR_DIR = os.environ['CONPAIR_DIR']
 MARKER_FILE = os.path.join(CONPAIR_DIR, 'data', 'markers', 'GRCh37.autosomes.phase3_shapeit2_mvncall_integrated.20130502.SNV.genotype.sselect_v4_MAF_0.4_LD_0.8.txt')
 
 desc = """Program to verify tumor-normal sample concordance"""
-parser = optparse.OptionParser(version='%prog version 0.1 5/January/2015', description=desc)
+parser = optparse.OptionParser(version='%prog version 0.15 3/August/2016', description=desc)
 parser.add_option('-T', '--tumor_pileup', help='TUMOR PILEUP FILE [mandatory field]', action='store')
 parser.add_option('-N', '--normal_pileup', help='NORMAL PILEUP FILE [mandatory field]', action='store')
 parser.add_option('-M', '--markers', help='MARKER FILE [Conpair-GRCh37-default]', action='store')
@@ -52,9 +52,6 @@ if not os.path.exists(MARKER_FILE):
     print('ERROR: Marker file {0} cannot be find.'.format(MARKER_FILE))
     sys.exit(2)
     
-if opts.outfile != "-":
-    outfile = open(opts.outfile, 'w')
-    
 Markers = get_markers(MARKER_FILE)
 COVERAGE_THRESHOLD = opts.min_cov
 MMQ = opts.min_mapping_quality
@@ -81,6 +78,10 @@ for m in Markers:
     else:
         discordant += 1
 
+if concordant+discordant == 0:
+    print('WARNING: There are no shared markers between the tumor and the normal samples that meet the specified coverage requirements ({0})\nIs the coverage of your samples high enough?\nExiting...'.format(COVERAGE_THRESHOLD))
+    sys.exit(0)
+
 
 if opts.outfile == "-":
     print round(float(concordant)/(concordant+discordant), 3)
@@ -88,6 +89,7 @@ if opts.outfile == "-":
     print "Minimum mappinq quality: " + str(MMQ)
     print "Minimum base quality: " + str(MBQ)
 else:
+    outfile = open(opts.outfile, 'w')
     outfile.write("Concordance: "+ str(round(100.0*float(concordant)/(concordant+discordant), 2)) + "%\n")
     outfile.write("Based on " + str(concordant+discordant) + "/" + str(len(Markers)) + " markers (coverage per marker threshold : " + str(COVERAGE_THRESHOLD) + " reads)\n")
     outfile.write("Minimum mappinq quality: " + str(MMQ) + "\n")
