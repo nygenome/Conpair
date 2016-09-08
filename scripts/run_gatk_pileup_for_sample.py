@@ -36,13 +36,13 @@ parser.add_option('--remove_chr_prefix', help='REMOVE CHR PREFIX FROM THE CHROMO
 if not opts.bam or not opts.outfile:
     parser.print_help()
     sys.exit(1)
-    
+
 if not os.path.exists(opts.bam):
     print('ERROR: Specified bamfile {0} cannot be found.'.format(opts.bam))
     sys.exit(1)
-    
+
 if opts.conpair_dir:
-    CONPAIR_DIR = conpair_dir
+    CONPAIR_DIR = opts.conpair_dir
 else:
     CONPAIR_DIR = os.environ['CONPAIR_DIR']
 
@@ -53,7 +53,7 @@ else:
 
 if not os.path.exists(GATK):
     print('ERROR: GATK jar {0} cannot be find.'.format(GATK))
-    sys.exit(2)   
+    sys.exit(2)
 
 if opts.markers:
     MARKER_FILE = opts.markers
@@ -63,12 +63,12 @@ else:
 if not os.path.exists(MARKER_FILE):
     print('ERROR: Marker file {0} cannot be find.'.format(MARKER_FILE))
     sys.exit(2)
-    
+
 if opts.reference:
     REFERENCE = opts.reference
 else:
     REFERENCE = os.path.join(CONPAIR_DIR, 'data', 'genomes', 'human_g1k_v37.fa')
-    
+
 if not os.path.exists(REFERENCE):
     print('ERROR: Reference genome {0} cannot be find.'.format(REFERENCE))
     sys.exit(3)
@@ -86,7 +86,7 @@ os.system(command_line)
 
 if opts.remove_chr_prefix:
     print("Removing 'chr' prefix...")
-    
+
     with NamedTemporaryFile(delete=False) as tmp_source:
         with open(opts.outfile) as source_file:
             for line in source_file:
@@ -96,6 +96,3 @@ if opts.remove_chr_prefix:
                     tmp_source.write(line)
 
     move(tmp_source.name, source_file.name)
-
-
-
