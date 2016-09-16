@@ -34,7 +34,7 @@ parser.add_option('-Q', '--min_mapping_quality', help='MIN MAPPING QUALITY [defa
 (opts, args) = parser.parse_args()
 
 if opts.conpair_dir:
-    CONPAIR_DIR = conpair_dir
+    CONPAIR_DIR = opts.conpair_dir
 else:
     CONPAIR_DIR = os.environ['CONPAIR_DIR']
 
