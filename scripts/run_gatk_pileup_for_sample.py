@@ -75,12 +75,15 @@ if not os.path.exists(REFERENCE):
 
 if opts.temp_dir_java:
     JAVA_TEMP = "-Djava.io.tmpdir={}".format(opts.temp_dir_java)
-    if not os.path.isdir(JAVA_TEMP):
-        os.makedirs(JAVA_TEMP, 0770)
+    if not os.path.isdir(opts.temp_dir_java):
+        os.makedirs(opts.temp_dir_java, 0770)
 else:
     JAVA_TEMP = ""
 
-command_line = "java {0} -Xmx{1} -jar {2} -T Pileup -R {3} -I {4} -L {5} -o {6} -verbose -rf DuplicateRead --filter_reads_with_N_cigar --filter_mismatching_base_and_quals".format(JAVA_TEMP, opts.xmx_java, GATK, REFERENCE, opts.bam, MARKER_FILE, opts.outfile)
+command_line = ("{7} {0} -Xmx{1} -jar {2} -T Pileup -R {3} -I {4} -L {5} -o {6} " +
+				"-verbose -rf DuplicateRead --filter_reads_with_N_cigar " +
+				"--filter_mismatching_base_and_quals").format(JAVA_TEMP, opts.xmx_java, GATK, REFERENCE, opts.bam, MARKER_FILE, opts.outfile, opts.java)
+
 os.system(command_line)
 
 
