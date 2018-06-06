@@ -1,4 +1,4 @@
-#!/usr/bin/env python2.7
+#!/usr/bin/env python
 
 #
 # 2015-09-02
@@ -32,7 +32,7 @@ baseQ_max = 60
 def create_conditional_likelihood_of_base_dict(checkpoints):
     
     D = defaultdict(lambda: defaultdict(dict))
-    for bq in xrange(0, baseQ_max+1):
+    for bq in range(0, baseQ_max+1):
         Q = phred2prob(bq)/3
 
         f_AAAA_A = lambda x: (1-Q)
@@ -71,12 +71,12 @@ def create_conditional_likelihood_of_base_dict(checkpoints):
 def likelihood_per_marker(A, Scores, checkpoints, ref_basequals, alt_basequals):
     
     for bq in ref_basequals:
-        for i in xrange(0, len(checkpoints)):
+        for i in range(0, len(checkpoints)):
             v = checkpoints[i]
             ref_part = [Scores['AAAA_A'][v][bq], Scores['AABB_A'][v][bq], Scores['AABA_A'][v][bq], Scores['ABAB_A'][v][bq], Scores['ABAA_A'][v][bq], Scores['ABAA_B'][v][bq], Scores['AAAA_B'][v][bq], Scores['AABB_B'][v][bq], Scores['AABA_B'][v][bq]]
             A[i] += ref_part
     for bq in alt_basequals:
-        for i in xrange(0, len(checkpoints)):
+        for i in range(0, len(checkpoints)):
             v = checkpoints[i]
             alt_part = [Scores['AAAA_B'][v][bq], Scores['AABB_B'][v][bq], Scores['AABA_B'][v][bq], Scores['ABAB_B'][v][bq], Scores['ABAA_B'][v][bq], Scores['ABAA_A'][v][bq], Scores['AAAA_A'][v][bq], Scores['AABB_A'][v][bq], Scores['AABA_A'][v][bq]]
             A[i] += alt_part
@@ -88,16 +88,15 @@ def calculate_contamination_likelihood(checkpoints, Data, Scores):
     D = np.zeros([len(checkpoints), 1],dtype='float64')
     for marker_data in Data:
         A = np.zeros([len(checkpoints), 9],dtype='float64')
-        for i in xrange(0, len(checkpoints)):
+        for i in range(0, len(checkpoints)):
             A[i] += marker_data[0]
         A = likelihood_per_marker(A, Scores, checkpoints, marker_data[1], marker_data[2])
-        for i in xrange(0, len(checkpoints)):
+        for i in range(0, len(checkpoints)):
             D[i] += log10p(sum([pow(10,x ) for x in A[i]]))
             
     return(D)
 
-def apply_brents_algorithm(Data, Scores, (x1, x2, x3)):
-    
+def apply_brents_algorithm(Data, Scores, x1, x2, x3):
     def f(x):
         if type(x) is np.ndarray:
             x = x[0]

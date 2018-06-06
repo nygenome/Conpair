@@ -76,7 +76,7 @@ if not os.path.exists(REFERENCE):
 if opts.temp_dir_java:
     JAVA_TEMP = "-Djava.io.tmpdir={}".format(opts.temp_dir_java)
     if not os.path.isdir(opts.temp_dir_java):
-        os.makedirs(opts.temp_dir_java, 0770)
+        os.makedirs(opts.temp_dir_java, 770)
 else:
     JAVA_TEMP = ""
 
@@ -95,7 +95,7 @@ if opts.remove_chr_prefix:
             for line in source_file:
                 if line.startswith("chr"):
                     tmp_source.write(line[3:])
-            	else:
+                else:
                     tmp_source.write(line)
 
     move(tmp_source.name, source_file.name)
