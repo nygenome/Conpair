@@ -92,7 +92,7 @@ file = open(opts.normal_pileup)
 Data = []
 for line in file:
     if line.startswith("[REDUCE RESULT]"):
-	continue   
+        continue
     pileup = ContaminationMarker.parse_mpileup_line(line, min_map_quality=MMQ)
     try:
         marker = Markers[pileup.chrom + ":" + pileup.pos]
@@ -140,7 +140,7 @@ elif x2 == 1.0:
 
 ### SEARCHING THE SPACE AROUND ARGMAX - Brent's algorithm
 
-optimal_val = ContaminationModel.apply_brents_algorithm(Data, Scores, (x1, x2, x3))
+optimal_val = ContaminationModel.apply_brents_algorithm(Data, Scores, x1, x2, x3)
 
 ### PRINTING THE NORMAL RESULTS
     
@@ -212,7 +212,7 @@ elif x2 == 1.0:
 
 ### SEARCHING THE SPACE AROUND ARGMAX - Brent's algorithm
 
-optimal_val = ContaminationModel.apply_brents_algorithm(Data, Scores, (x1, x2, x3))
+optimal_val = ContaminationModel.apply_brents_algorithm(Data, Scores, x1, x2, x3)
 
 ### PRINTING THE TUMOR RESULTS
     

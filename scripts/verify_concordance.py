@@ -84,10 +84,10 @@ if concordant+discordant == 0:
 
 
 if opts.outfile == "-":
-    print round(float(concordant)/(concordant+discordant), 3)
-    print "Based on " + str(concordant+discordant) + "/" + str(len(Markers)) + " markers (coverage per marker threshold: " + str(COVERAGE_THRESHOLD) + " reads)"
-    print "Minimum mappinq quality: " + str(MMQ)
-    print "Minimum base quality: " + str(MBQ)
+    print(round(float(concordant)/(concordant+discordant), 3))
+    print("Based on " + str(concordant+discordant) + "/" + str(len(Markers)) + " markers (coverage per marker threshold: " + str(COVERAGE_THRESHOLD) + " reads)")
+    print("Minimum mappinq quality: " + str(MMQ))
+    print("Minimum base quality: " + str(MBQ))
 else:
     outfile = open(opts.outfile, 'w')
     outfile.write("Concordance: "+ str(round(100.0*float(concordant)/(concordant+discordant), 2)) + "%\n")

@@ -1,4 +1,4 @@
-#!/usr/bin/env python2.7
+#!/usr/bin/env python
 
 #
 # 2015-09-02
@@ -73,7 +73,7 @@ def parse_mpileup_line(line, min_map_quality=0, min_base_quality=0):
     if min_map_quality > 0:
         verbose_lines = line[6].split(',')
         mapqs = [v.split('@')[-1] for v in verbose_lines]
-        mapqs_above_threshold = set([i for i in xrange(0, len(mapqs)) if int(mapqs[i]) >= min_map_quality])
+        mapqs_above_threshold = set([i for i in range(0, len(mapqs)) if int(mapqs[i]) >= min_map_quality])
 
     indexes_A = find_all_positions_of_char(bases, 'A')
     indexes_C = find_all_positions_of_char(bases, 'C')
@@ -173,7 +173,7 @@ def baseQ2int(baseQ_string, scaling_factor=33):
 
 
 def find_all_positions_of_char(s, char):
-    indexes = [i for i in xrange(0, len(s)) if s[i] == char]
+    indexes = [i for i in range(0, len(s)) if s[i] == char]
     return(indexes)
 
 
