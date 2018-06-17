@@ -4,12 +4,12 @@ Conpair: concordance and contamination estimator for tumor–normal pairs
 Conpair is a fast and robust method dedicated for human tumor-normal studies to perform concordance verification (= samples coming from the same individual), as well as cross-individual contamination level estimation in whole-genome and whole-exome sequencing experiments. Importantly, our method of estimating contamination in the tumor samples is not affected by copy number changes and is able to detect contamination levels as low as 0.1%.
 
 * Version: 0.1 (more options to be added in the future release)
-* Author: Ewa A Bergmann, [New York Genome Center](https://www.nygenome.org)
+* Author: Ewa A Bergmann
 * Contact: ewa.a.bergmann@gmail.com
 
 **Required input files:** two bam files (tumor, normal)
 
-**Required software:** GATK 2.3 or later, python 2.7, scipy, numpy, java
+**Required software:** GATK 2.3 or later, python 2.7 or higher, scipy, numpy, java
 
 **Required data:** Human genome file (GRCh37)  
   
@@ -23,7 +23,7 @@ To create these files please follow: http://gatkforums.broadinstitute.org/gatk/d
 
 
 **Dependencies:**
-* python 2.7 :               [www.python.org](https://www.python.org/)
+* python 2.7 or higher :     [www.python.org](https://www.python.org/)
 * numpy 1.7.0 or higher :    [www.numpy.org](http://www.numpy.org/) 
 * scipy 0.14.0 or higher :   [www.scipy.org](http://www.scipy.org/)
 * GATK 2.3 or higher :       [www.broadinstitute.org/gatk/download](http://www.broadinstitute.org/gatk/download/)
