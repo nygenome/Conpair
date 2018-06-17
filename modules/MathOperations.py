@@ -1,4 +1,4 @@
-#!/usr/bin/env python2.7
+#!/usr/bin/env python
 
 #
 # 2016-02-29
@@ -27,6 +27,6 @@ def phred2prob(Q):
 def log10p(f):
     
     if f < 1e-323:
-	return(-324)
+        return(-324)
     else:
-	return(np.log10(f))
+        return(np.log10(f))
