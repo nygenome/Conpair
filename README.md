@@ -3,7 +3,7 @@ Conpair: concordance and contamination estimator for tumor–normal pairs
 
 Conpair is a fast and robust method dedicated for human tumor-normal studies to perform concordance verification (= samples coming from the same individual), as well as cross-individual contamination level estimation in whole-genome and whole-exome sequencing experiments. Importantly, our method of estimating contamination in the tumor samples is not affected by copy number changes and is able to detect contamination levels as low as 0.1%.
 
-* Version: 0.1 (more options to be added in the future release)
+* Version: 0.2
 * Author: Ewa A Bergmann
 * Contact: ewa.a.bergmann@gmail.com
 
@@ -11,11 +11,20 @@ Conpair is a fast and robust method dedicated for human tumor-normal studies to 
 
 **Required software:** GATK 2.3 or later, python 2.7 or higher, scipy, numpy, java
 
-**Required data:** Human genome file (GRCh37)  
-  
+**Required data:** Human genome file (GRCh37 or GRCh38) 
+
+GRCh37:
+
 The fasta file can be downloaded from: ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/technical/reference/human_g1k_v37.fasta.gz  
 In order to be able use the fasta file as a reference 2 additional files are required:
 `human_g1k_v37.dict`, `human_g1k_v37.fa.fai`  
+To create these files please follow: http://gatkforums.broadinstitute.org/gatk/discussion/1601/how-can-i-prepare-a-fasta-file-to-use-as-reference
+
+GRCh38:
+
+The fasta file can be downloaded from: http://hgdownload.soe.ucsc.edu/goldenPath/hg38/bigZips/hg38.fa.gz
+In order to be able use the fasta file as a reference 2 additional files are required:
+`hg38.dict`, `hg38.fa.fai`
 To create these files please follow: http://gatkforums.broadinstitute.org/gatk/discussion/1601/how-can-i-prepare-a-fasta-file-to-use-as-reference
 
 
