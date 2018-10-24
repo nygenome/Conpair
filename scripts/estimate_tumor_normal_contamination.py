@@ -13,10 +13,11 @@
 import sys
 import os
 import optparse
-import imp
 from collections import defaultdict
 import numpy as np
 from math import pow
+from conpair import ContaminationModel, ContaminationMarker, MathOperations, Genotypes
+from conpair import find_markers_file
 
 
 HOMOZYGOUS_P_VALUE_THRESHOLD = 0.999
@@ -27,21 +28,12 @@ parser.add_option('-T', '--tumor_pileup', help='TUMOR PILEUP FILE [mandatory fie
 parser.add_option('-N', '--normal_pileup', help='NORMAL PILEUP FILE [mandatory field]', type='string', action='store')
 parser.add_option('-D', '--conpair_dir', help='CONPAIR DIR [default: $CONPAIR_DIR]', action='store')
 parser.add_option('-M', '--markers', help='MARKER FILE [default: markers for GRCh37 from $CONPAIR_DIR/data/markers/ ]', type='string', action='store')
+parser.add_option('-g', '--genome', help='Instead of the marker file path, you can specify the genome build name (GRCh37, GRCh38, GRCm38) [default: GRCh37]', default='GRCh37', action='store')
 parser.add_option('-O', '--outfile', help='TXT OUTPUT FILE [default: stdout]', default="-", type='string', action='store')
 parser.add_option('-G', '--grid', help='GRID INTERVAL [default: 0.01]', type='float', default=0.01, action='store')
 parser.add_option('-Q', '--min_mapping_quality', help='MIN MAPPING QUALITY [default: 10]', default=10, type='int', action='store')
 
 (opts, args) = parser.parse_args()
-
-if opts.conpair_dir:
-    CONPAIR_DIR = opts.conpair_dir
-else:
-    CONPAIR_DIR = os.environ['CONPAIR_DIR']
-
-ContaminationModel = imp.load_source('/ContaminationModel', CONPAIR_DIR + '/modules/ContaminationModel.py')
-ContaminationMarker = imp.load_source('/ContaminationMarker', CONPAIR_DIR + '/modules/ContaminationMarker.py')
-MathOperations = imp.load_source('/MathOperations', CONPAIR_DIR + '/modules/MathOperations.py')
-Genotypes = imp.load_source('/Genotypes', CONPAIR_DIR + '/modules/Genotypes.py')
 
 if not opts.tumor_pileup or not opts.normal_pileup:
     parser.print_help()
@@ -55,14 +47,8 @@ if not os.path.exists(opts.normal_pileup):
     print('ERROR: Input normal file {0} cannot be find.'.format(opts.normal_pileup))
     sys.exit(1)
     
-if opts.markers:
-    MARKER_FILE = opts.markers
-else:
-    MARKER_FILE = os.path.join(CONPAIR_DIR, 'data', 'markers', 'GRCh37.autosomes.phase3_shapeit2_mvncall_integrated.20130502.SNV.genotype.sselect_v4_MAF_0.4_LD_0.8.txt')
-
-if not os.path.exists(MARKER_FILE):
-    print('ERROR: Marker file {0} cannot be find.'.format(MARKER_FILE))
-    sys.exit(2)
+conpair_dir = os.environ.get('CONPAIR_DIR', opts.conpair_dir)
+markers_file = find_markers_file(opts, '.txt', conpair_dir=conpair_dir)
 
 grid_precision = opts.grid
 MMQ = opts.min_mapping_quality
@@ -73,7 +59,7 @@ def drange(start, stop, step):
         yield r
         r += step
 
-Markers = ContaminationMarker.get_markers(MARKER_FILE)
+Markers = ContaminationMarker.get_markers(markers_file)
 
 Normal_homozygous_genotype = defaultdict(lambda: defaultdict())
 
