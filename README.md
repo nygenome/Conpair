@@ -30,37 +30,44 @@ To create these files please follow: http://gatkforums.broadinstitute.org/gatk/d
 
 # Manual
 
-
 **Dependencies:**
+
 * python 2.7 or higher :     [www.python.org](https://www.python.org/)
-* numpy 1.7.0 or higher :    [www.numpy.org](http://www.numpy.org/) 
-* scipy 0.14.0 or higher :   [www.scipy.org](http://www.scipy.org/)
-* GATK 2.3 or higher :       [www.broadinstitute.org/gatk/download](http://www.broadinstitute.org/gatk/download/)
+* GATK 3 or higher :         [www.broadinstitute.org/gatk/download](http://www.broadinstitute.org/gatk/download/)
 * java :                     [http://java.com](http://java.com/en/download/)
 
+**Installation:**   
 
-**Setting environmental variables:**   
-To use Conpair you need to set 2 environmental variables and a PYTHONPATH variable (e.g. by adding following lines to your .bashrc file):  
+Use pip to install the package:
 ```
-export CONPAIR_DIR=/your/path/to/CONPAIR  
+pip install .
+```
+If you are getting permission issues, you may want to install into a [virtual environment](https://docs.python.org/3/tutorial/venv.html).
+
+To set up GATK, you should either set the environment variable:
+```
 export GATK_JAR=/your/path/to/GenomeAnalysisTK.jar
-
-export PYTHONPATH=${PYTHONPATH}:/your/path/to/CONPAIR/modules/
 ```
+
+Or install gatk4 through [bioconda](https://bioconda.github.io/):
+```
+conda install -c bioconda gatk
+```
+
 **Default reference genome:**
 
-To avoid specifying the reference file every time you run Conpair, please make sure that you have the following files in the specified directory:  
-`/your/path/to/CONPAIR/data/genomes/human_g1k_v37.fa`  
-`/your/path/to/CONPAIR/data/genomes/human_g1k_v37.fa.fai`  
-`/your/path/to/CONPAIR/data/genomes/human_g1k_v37.dict`
+To avoid specifying the reference file every time you run Conpair, you can put/link the following files in the specified directory:
+`/your/path/to/CONPAIR/genomes/human_g1k_v37.fa`  
+`/your/path/to/CONPAIR/genomes/human_g1k_v37.fa.fai`  
+`/your/path/to/CONPAIR/genomes/human_g1k_v37.dict`
 <br/>
 
 **Most common usage and additional options:**   
 To generate pileups (GATK required):
 ```
 
-${CONPAIR_DIR}/scripts/run_gatk_pileup_for_sample.py -B TUMOR_bam -O TUMOR_pileup
-${CONPAIR_DIR}/scripts/run_gatk_pileup_for_sample.py -B NORMAL_bam -O NORMAL_pileup
+run_gatk_pileup_for_sample.py -B TUMOR_bam -O TUMOR_pileup
+run_gatk_pileup_for_sample.py -B NORMAL_bam -O NORMAL_pileup
 
 
 Optional:
@@ -105,6 +112,7 @@ Optional:
 --grid  GRID                        grid interval [default: 0.01]
 
 ```  
+
 # Output files
 **Pileup**  
 An example of a pileup file (10 first lines) can be viewed here: ([`pileup.txt`](https://github.com/nygenome/Conpair/blob/master/data/example/pileup/NA12878_normal40x.gatk.pileup.10lines.txt)).

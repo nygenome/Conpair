@@ -26,7 +26,6 @@ desc = """Program to estimate tumor-normal sample contamination"""
 parser = optparse.OptionParser(version='%prog version 1.0 March/01/2016', description=desc)
 parser.add_option('-T', '--tumor_pileup', help='TUMOR PILEUP FILE [mandatory field]', type='string', action='store')
 parser.add_option('-N', '--normal_pileup', help='NORMAL PILEUP FILE [mandatory field]', type='string', action='store')
-parser.add_option('-D', '--conpair_dir', help='CONPAIR DIR [default: $CONPAIR_DIR]', action='store')
 parser.add_option('-M', '--markers', help='MARKER FILE [default: markers for GRCh37 from $CONPAIR_DIR/data/markers/ ]', type='string', action='store')
 parser.add_option('-g', '--genome', help='Instead of the marker file path, you can specify the genome build name (GRCh37, GRCh38, GRCm38) [default: GRCh37]', default='GRCh37', action='store')
 parser.add_option('-O', '--outfile', help='TXT OUTPUT FILE [default: stdout]', default="-", type='string', action='store')
@@ -46,9 +45,8 @@ if not os.path.exists(opts.tumor_pileup):
 if not os.path.exists(opts.normal_pileup):
     print('ERROR: Input normal file {0} cannot be find.'.format(opts.normal_pileup))
     sys.exit(1)
-    
-conpair_dir = os.environ.get('CONPAIR_DIR', opts.conpair_dir)
-markers_file = find_markers_file(opts, '.txt', conpair_dir=conpair_dir)
+
+markers_file = find_markers_file(opts, '.txt')
 
 grid_precision = opts.grid
 MMQ = opts.min_mapping_quality

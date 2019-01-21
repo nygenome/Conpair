@@ -20,15 +20,9 @@ def which(program):
     return None
 
 
-def find_markers_file(opts, ext='.bed', conpair_dir=None):
-    if conpair_dir:
-        markers_dir = os.path.join(conpair_dir, 'data', 'markers')
-    else:
-        libs_dir = os.path.dirname(__file__)
-        if glob.glob(os.path.join(libs_dir, '*.bed')):  # setuputils installation?
-            markers_dir = libs_dir
-        else:
-            markers_dir = os.path.join(libs_dir, os.path.pardir, 'data', 'markers')
+def find_markers_file(opts, ext='.bed'):
+    libs_dir = os.path.dirname(__file__)
+    markers_dir = os.path.join(libs_dir, 'markers')
 
     if opts.markers:
         markers_file = opts.markers

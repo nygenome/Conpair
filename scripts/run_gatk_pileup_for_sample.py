@@ -60,8 +60,7 @@ if GATK and not os.path.exists(GATK):
     print('ERROR: GATK jar {0} cannot be find.'.format(GATK))
     sys.exit(2)
 
-conpair_dir = os.environ.get('CONPAIR_DIR', opts.conpair_dir)
-markers_file = find_markers_file(opts, '.bed', conpair_dir=conpair_dir)
+markers_file = find_markers_file(opts, '.bed')
 
 if opts.reference:
     reference_fa = opts.reference
@@ -69,8 +68,9 @@ if opts.reference:
         print('ERROR: Reference genome {0} cannot be find.'.format(reference_fa))
         sys.exit(3)
 else:
+    conpair_dir = os.environ.get('CONPAIR_DIR', opts.conpair_dir)
     if conpair_dir:
-        reference_fa = os.path.join(conpair_dir, 'data', 'genomes', 'human_g1k_v37.fa')
+        reference_fa = os.path.join(conpair_dir, 'genomes', 'human_g1k_v37.fa')
         if not os.path.exists(reference_fa):
             print('ERROR: Please provide reference fasta file with --reference, or put it into ' + reference_fa)
             sys.exit(3)

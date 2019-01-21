@@ -23,7 +23,6 @@ desc = """Program to verify tumor-normal sample concordance"""
 parser = optparse.OptionParser(version='%prog version 0.15 3/August/2016', description=desc)
 parser.add_option('-T', '--tumor_pileup', help='TUMOR PILEUP FILE [mandatory field]', action='store')
 parser.add_option('-N', '--normal_pileup', help='NORMAL PILEUP FILE [mandatory field]', action='store')
-parser.add_option('-D', '--conpair_dir', help='CONPAIR DIR [default: $CONPAIR_DIR]', action='store')
 parser.add_option('-M', '--markers', help='MARKER FILE [Conpair-GRCh37-default]', action='store')
 parser.add_option('-g', '--genome', help='Instead of the marker file path, you can specify the genome build name (GRCh37, GRCh38, GRCm38) [default: GRCh37]', default='GRCh37', action='store')
 parser.add_option('-C', '--min_cov', help='MIN COVERAGE TO CALL GENOTYPE [default: 10]', default=10, type='int', action='store')
@@ -46,8 +45,7 @@ if not os.path.exists(opts.normal_pileup):
     print('ERROR: Input normal file {0} cannot be found.'.format(opts.normal_pileup))
     sys.exit(1)
 
-conpair_dir = os.environ.get('CONPAIR_DIR', opts.conpair_dir)
-markers_file = find_markers_file(opts, '.txt', conpair_dir=conpair_dir)
+markers_file = find_markers_file(opts, '.txt')
 
 Markers = get_markers(markers_file)
 COVERAGE_THRESHOLD = opts.min_cov
