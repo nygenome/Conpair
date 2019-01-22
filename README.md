@@ -51,7 +51,7 @@ export GATK_JAR=/your/path/to/GenomeAnalysisTK.jar
 
 Or install gatk4 through [bioconda](https://bioconda.github.io/):
 ```
-conda install -c bioconda gatk
+conda install -c bioconda gatk4
 ```
 
 **Default reference genome:**
