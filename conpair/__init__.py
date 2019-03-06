@@ -31,7 +31,7 @@ def find_markers_file(opts, ext='.bed'):
         if genome in ['GRCh37', 'hg19']:
             markers_file = os.path.join(markers_dir, 'GRCh37.autosomes.phase3_shapeit2_mvncall_integrated.20130502.SNV.genotype.sselect_v4_MAF_0.4_LD_0.8' + ext)
         elif genome in ['GRCh38', 'hg38']:
-            markers_file = os.path.join(markers_dir, 'GRCh38.autosomes.phase3_shapeit2_mvncall_integrated.20130502.SNV.genotype.sselect_v4_MAF_0.4_LD_0.8' + ext)
+            markers_file = os.path.join(markers_dir, 'GRCh38.autosomes.phase3_shapeit2_mvncall_integrated.20130502.SNV.genotype.sselect_v4_MAF_0.4_LD_0.8.liftover' + ext)
         elif genome in ['GRCm38', 'mm10', 'mouse']:
             markers_file = os.path.join(markers_dir, 'SureSelect_Mouse_All_Exon_V1_GRCm38_markers_MAF_0.4_LD_0.8' + ext)
         else:
