@@ -20,7 +20,7 @@ import sys
 import os
 from collections import defaultdict
 import numpy as np
-
+import random
 
 
 def RAF2genotypeProb(RAF):
@@ -31,8 +31,18 @@ def RAF2genotypeProb(RAF):
     return(p_refref, p_refalt, p_altalt)
 
 
+def downsample(baseqs):
+    '''Randomly downsample so that floats do not get reduced to 0.0'''
+    if len(baseqs) > 450:
+        x = 450 / len(baseqs)
+        return random.sample(baseqs, int(x*len(baseqs)))
+    return baseqs
+
 
 def compute_genotype_likelihood(ref_baseq, alt_baseq, normalize=True):
+    '''Randomly downsample to 450x if needed and then get likelihood from base quals'''
+    ref_baseq = downsample(ref_baseq)
+    alt_baseq = downsample(alt_baseq)
     AA = 1
     BB = 1
     for i in ref_baseq:
