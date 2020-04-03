@@ -15,6 +15,7 @@ import sys
 import optparse
 from shutil import move
 from tempfile import NamedTemporaryFile
+from conpair import which, find_markers_file
 
 
 desc = """Program to run GATK Pileup on a single sample"""
@@ -24,7 +25,9 @@ parser.add_option('-O', '--outfile', help='OUTPUT FILE (PILEUP) [mandatory field
 parser.add_option('-D', '--conpair_dir', help='CONPAIR DIR [$CONPAIR_DIR by default]', action='store')
 parser.add_option('-R', '--reference', help='REFERENCE GENOME [GRCh37 by default]', action='store')
 parser.add_option('-M', '--markers', help='MARKER FILE [GRCh37-default]', action='store')
-parser.add_option('-G', '--gatk', help='GATK JAR [$GATK by default]', action='store')
+parser.add_option('-g', '--genome', help='Instead of the marker file path, you can specify the genome build name (GRCh37, GRCh38, GRCm38) [default: GRCh37]', default='GRCh37', action='store')
+parser.add_option('-G', '--gatk', help='GATK JAR [by default, will check if gatk executable as available in PATH assuming it\'s GATK4 installed with bioconda. '
+                                       'Otherwise, will assume GATK JAR is in $GATK_JAR environment variable]', action='store')
 parser.add_option('-J', '--java', help='PATH to JAVA [java by default]', default='java', action='store')
 parser.add_option('-t', '--temp_dir_java', help='temporary directory to set -Djava.io.tmpdir', action='store')
 parser.add_option('-m', '--xmx_java', help='Xmx java memory setting [default: 12g]', default='12g', action='store')
@@ -41,37 +44,39 @@ if not os.path.exists(opts.bam):
     print('ERROR: Specified bamfile {0} cannot be found.'.format(opts.bam))
     sys.exit(1)
 
-if opts.conpair_dir:
-    CONPAIR_DIR = opts.conpair_dir
-else:
-    CONPAIR_DIR = os.environ['CONPAIR_DIR']
-
+GATK = None
+GATK4 = None
 if opts.gatk:
     GATK = opts.gatk
-else:
+elif 'GATK_JAR' in os.environ:
     GATK = os.environ['GATK_JAR']
+elif which('gatk'):
+    GATK4 = 'gatk'
+else:
+    print('ERROR: cannot find GATK. Try either installing GATK4 with conda (conda install -c bioconda gatk4), or provide GATK2 or GATK3 JAR with `--gatk` or GATK_JAR environment variable')
+    sys.exit(2)
 
-if not os.path.exists(GATK):
+if GATK and not os.path.exists(GATK):
     print('ERROR: GATK jar {0} cannot be find.'.format(GATK))
     sys.exit(2)
 
-if opts.markers:
-    MARKER_FILE = opts.markers
-else:
-    MARKER_FILE = os.path.join(CONPAIR_DIR, 'data', 'markers', 'GRCh37.autosomes.phase3_shapeit2_mvncall_integrated.20130502.SNV.genotype.sselect_v4_MAF_0.4_LD_0.8.bed')
-
-if not os.path.exists(MARKER_FILE):
-    print('ERROR: Marker file {0} cannot be find.'.format(MARKER_FILE))
-    sys.exit(2)
+markers_file = find_markers_file(opts, '.bed')
 
 if opts.reference:
-    REFERENCE = opts.reference
+    reference_fa = opts.reference
+    if not os.path.exists(reference_fa):
+        print('ERROR: Reference genome {0} cannot be find.'.format(reference_fa))
+        sys.exit(3)
 else:
-    REFERENCE = os.path.join(CONPAIR_DIR, 'data', 'genomes', 'human_g1k_v37.fa')
-
-if not os.path.exists(REFERENCE):
-    print('ERROR: Reference genome {0} cannot be find.'.format(REFERENCE))
-    sys.exit(3)
+    conpair_dir = os.environ.get('CONPAIR_DIR', opts.conpair_dir)
+    if conpair_dir:
+        reference_fa = os.path.join(conpair_dir, 'genomes', 'human_g1k_v37.fa')
+        if not os.path.exists(reference_fa):
+            print('ERROR: Please provide reference fasta file with --reference, or put it into ' + reference_fa)
+            sys.exit(3)
+    else:
+        print('ERROR: Please provide reference fasta file with --reference')
+        sys.exit(3)
 
 if opts.temp_dir_java:
     JAVA_TEMP = "-Djava.io.tmpdir={}".format(opts.temp_dir_java)
@@ -80,10 +85,14 @@ if opts.temp_dir_java:
 else:
     JAVA_TEMP = ""
 
-command_line = ("{7} {0} -Xmx{1} -jar {2} -T Pileup -R {3} -I {4} -L {5} -o {6} " +
-				"-verbose -rf DuplicateRead --filter_reads_with_N_cigar " +
-				"--filter_mismatching_base_and_quals").format(JAVA_TEMP, opts.xmx_java, GATK, REFERENCE, opts.bam, MARKER_FILE, opts.outfile, opts.java)
-
+if GATK4:
+    command_line = ("{GATK4} --java-options '{JAVA_TEMP} -Xmx{opts.xmx_java}' Pileup -R {reference_fa} -I {opts.bam} -L {markers_file} -O {opts.outfile} " +
+                    "-verbose -RF NotDuplicateReadFilter -RF CigarContainsNoNOperator " +
+                    "-RF MatchingBasesAndQualsReadFilter").format(**locals())
+else:
+    command_line = ("{opts.java} {JAVA_TEMP} -Xmx{opts.xmx_java} -jar {GATK} -T Pileup -R {reference_fa} -I {opts.bam} -L {markers_file} -o {opts.outfile} " +
+                    "-verbose -rf DuplicateRead --filter_reads_with_N_cigar " +
+                    "--filter_mismatching_base_and_quals").format(**locals())
 os.system(command_line)
 
 

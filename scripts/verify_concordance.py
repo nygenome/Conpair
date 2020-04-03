@@ -14,17 +14,17 @@ import os
 import optparse
 import math
 from collections import defaultdict
-from ContaminationModel import *
-from ContaminationMarker import *
+from conpair.ContaminationModel import *
+from conpair.ContaminationMarker import *
+from conpair import find_markers_file
 
-CONPAIR_DIR = os.environ['CONPAIR_DIR']
-MARKER_FILE = os.path.join(CONPAIR_DIR, 'data', 'markers', 'GRCh37.autosomes.phase3_shapeit2_mvncall_integrated.20130502.SNV.genotype.sselect_v4_MAF_0.4_LD_0.8.txt')
 
 desc = """Program to verify tumor-normal sample concordance"""
 parser = optparse.OptionParser(version='%prog version 0.15 3/August/2016', description=desc)
 parser.add_option('-T', '--tumor_pileup', help='TUMOR PILEUP FILE [mandatory field]', action='store')
 parser.add_option('-N', '--normal_pileup', help='NORMAL PILEUP FILE [mandatory field]', action='store')
 parser.add_option('-M', '--markers', help='MARKER FILE [Conpair-GRCh37-default]', action='store')
+parser.add_option('-g', '--genome', help='Instead of the marker file path, you can specify the genome build name (GRCh37, GRCh38, GRCm38) [default: GRCh37]', default='GRCh37', action='store')
 parser.add_option('-C', '--min_cov', help='MIN COVERAGE TO CALL GENOTYPE [default: 10]', default=10, type='int', action='store')
 parser.add_option('-O', '--outfile', help='TXT OUTPUT FILE [stdout by default]', default="-", type='string', action='store')
 parser.add_option('-Q', '--min_mapping_quality', help='MIN MAPPING QUALITY [default: 10]', default=10, type='int', action='store')
@@ -45,14 +45,9 @@ if not os.path.exists(opts.normal_pileup):
     print('ERROR: Input normal file {0} cannot be found.'.format(opts.normal_pileup))
     sys.exit(1)
 
-if opts.markers:
-    MARKER_FILE = opts.markers
+markers_file = find_markers_file(opts, '.txt')
 
-if not os.path.exists(MARKER_FILE):
-    print('ERROR: Marker file {0} cannot be find.'.format(MARKER_FILE))
-    sys.exit(2)
-    
-Markers = get_markers(MARKER_FILE)
+Markers = get_markers(markers_file)
 COVERAGE_THRESHOLD = opts.min_cov
 MMQ = opts.min_mapping_quality
 MBQ = opts.min_base_quality
