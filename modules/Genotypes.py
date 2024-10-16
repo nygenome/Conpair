@@ -34,7 +34,7 @@ def RAF2genotypeProb(RAF):
 def downsample(baseqs):
     '''Randomly downsample so that floats do not get reduced to 0.0'''
     if len(baseqs) > 450:
-        x = 450 / len(baseqs)
+        x = float(450) / len(baseqs)
         return random.sample(baseqs, int(x*len(baseqs)))
     return baseqs
 
